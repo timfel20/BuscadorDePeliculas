@@ -1,1 +1,27 @@
-<p>movie-detail works!</p>
+<div class="movie-detail">
+  <div *ngIf="!movie" class="loading">Loading movie details...</div>
+
+  <div *ngIf="movie" class="movie-content">
+    <h2>{{ movie.title }}</h2>
+    
+    <div class="movie-main">
+      <img [src]="movie.poster_path ? 'https://image.tmdb.org/t/p/w500' + movie.poster_path : 'no-poster.png'"
+           [alt]="movie.title + ' poster'" 
+           class="movie-poster" />
+      
+      <div class="movie-info">
+        <p class="release-date"><strong>Release Date:</strong> {{ movie.release_date | date:'mediumDate' }}</p>
+        <p class="rating"><strong>Rating:</strong> {{ movie.vote_average | number:'1.1-1' }}/10</p>
+        <p class="runtime" *ngIf="movie.runtime"><strong>Runtime:</strong> {{ movie.runtime }} minutes</p>
+        <p class="overview"><strong>Overview:</strong> {{ movie.overview }}</p>
+        
+        <div class="genres" *ngIf="movie.genres?.length">
+          <strong>Genre:</strong>
+          <span class="genre-tag" *ngFor="let genre of movie.genres">{{ genre.name[0]}}</span>
+        </div>
+      </div>
+    </div>
+
+    <a [routerLink]="['/movies']" class="back-button">Back to Movies</a>
+  </div>
+</div>

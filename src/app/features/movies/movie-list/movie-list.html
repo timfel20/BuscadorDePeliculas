@@ -1,1 +1,25 @@
-<p>movie-list works!</p>
+<div class="movie-list">
+	<h2>Movies</h2>
+
+	<div *ngIf="error" class="error">{{ error }}</div>
+	
+	<ng-container *ngIf="!error">
+		<div class="grid" *ngIf="!loading && movies.length; else loadingTpl">
+			<div class="card" *ngFor="let m of movies">
+				<a [routerLink]="['/movie', m.id]" class="movie-link">
+					<img [src]="m.poster_path ? 'https://image.tmdb.org/t/p/w200' + m.poster_path : 'assets/no-poster.png'" 
+						[alt]="m.title + ' poster'" />
+					<div class="info">
+						<h3>{{ m.title }}</h3>
+						<p class="date">{{ m.release_date | date:'mediumDate' }}</p>
+						<p class="overview">{{ m.overview | slice:0:100 }}...</p>
+					</div>
+				</a>
+			</div>
+		</div>
+	</ng-container>
+
+	<ng-template #loadingTpl>
+		<div class="loading">Loading movies...</div>
+	</ng-template>
+</div>
