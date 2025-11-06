@@ -5,7 +5,7 @@
         <div class="search-grid">
             <div class="search-field">
                 <label for="searchQuery">Title</label>
-                <input id="searchQuery" type="text" placeholder="Search movies..." (input)="onSearchInput($event)" />
+                <input id="searchQuery" type="text" placeholder="Search movies..." (input)="onSearchInput($event)" class="custom-input" />
             </div>
 
             <div class="search-field">
@@ -15,7 +15,7 @@
 
             <div class="search-field">
                 <label for="release">Release After</label>
-                <input id="release" type="date" (change)="onDateChange($event)" />
+                <input id="release" type="date" (change)="onDateChange($event)"  class="custom-input"/>
             </div>
         </div>
         
