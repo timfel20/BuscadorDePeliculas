@@ -6,4 +6,5 @@ export const routes: Routes = [
   { path: '', component: MovieList },
   { path: 'movie/:id', component: MovieDetail },
   /* { path: '', redirectTo: '/movies', pathMatch: 'full' }, */
+  { path: '**', redirectTo: '' }
 ];
