@@ -39,7 +39,7 @@
         <div class="movies-grid" *ngIf="!loading && movies.length; else loadingTpl">
             <a class="movie-card" *ngFor="let m of movies" [routerLink]="['/movie', m.id]">
                 <div class="poster-wrapper">
-                    <img [src]="m.poster_path ? 'https://image.tmdb.org/t/p/w400' + m.poster_path : 'assets/no-poster.png'" 
+                    <img [src]="m.poster_path ? 'https://image.tmdb.org/t/p/w400' + m.poster_path : 'no-poster.png'" 
                         [alt]="m.title + ' poster'" />
                     <div class="rating" *ngIf="m.vote_average">
                         <span>{{ m.vote_average | number:'1.1-1' }}</span>

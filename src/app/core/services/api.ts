@@ -58,17 +58,19 @@ export class Api {
   }
 
   // Buscar peliculas con generos, rating minimo, y fecha de lanzamiento
-  searchMoviesWithFilters(filters: { query?: string; genres?: number[]; minRating?: number; releaseDate?: string | null }): Observable<Movie[]> {
-    let params = new HttpParams().set('api_key', this.apiKey);
+searchMoviesWithFilters(filters: { query?: string; genres?: number[]; minRating?: number; releaseDate?: string | null }): Observable<Movie[]> {
+  let params = new HttpParams().set('api_key', this.apiKey);
 
-    if (filters.query) {
-      params = params.set('query', filters.query);
-      return this.http.get<{ results: Movie[] }>(`${this.baseUrl}/search/movie`, { params })
-        .pipe(
-          map(res => res.results),
-          catchError(this.handleError)
-        );
-    }
+  const hasNonQueryFilters = (filters.genres && filters.genres.length) || filters.minRating || filters.releaseDate;
+  
+  if (filters.query && !hasNonQueryFilters) {
+    params = params.set('query', filters.query);
+    return this.http.get<{ results: Movie[] }>(`${this.baseUrl}/search/movie`, { params })
+      .pipe(
+        map(res => res.results),
+        catchError(this.handleError)
+      );
+  } else {
 
     if (filters.genres && filters.genres.length) {
       params = params.set('with_genres', filters.genres.join(','));
@@ -86,6 +88,8 @@ export class Api {
         catchError(this.handleError)
       );
   }
+}
+
 
   //Funcion reutilizable para manejar los errores de las solicitudes HTTP
   private handleError(error: HttpErrorResponse): Observable<never> {
