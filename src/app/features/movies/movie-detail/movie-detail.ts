@@ -24,7 +24,6 @@ export class MovieDetail {
   ngOnInit(): void {
   this.movieId = Number(this.route.snapshot.paramMap.get('id'));
    if (this.movieId) {
-    console.log('Movie id test here', this.movieId);
      this.fetchMovieDetails(this.movieId);
     } 
      /* this.fetchMovieDetails(this.movieId); */
@@ -34,9 +33,7 @@ export class MovieDetail {
   fetchMovieDetails(id: number): void {
     this.apiService.getMovieDetails(id).subscribe(
       (data) => {
-        console.log('data before set', data);
         this.movie = data as Movie;
-        console.log('movie after set', this.movie.title);
         this.cdr.detectChanges();
 
       },

@@ -12,9 +12,7 @@ export class Api {
   private baseUrl: string = environment.apiUrl;
   private apiKey: string = environment.apiKey;
 
-  constructor(private http: HttpClient) {
-    console.log('Api Service initialized');
-  }
+  constructor(private http: HttpClient) {}
 
   // El metodo GET para una pelicula en specifico usando su id
   getMovieDetails(movieId: number): Observable<Movie> {

@@ -49,7 +49,6 @@ export class MovieList implements OnInit {
   loadGenres(): void {
     this.apiService.getGenres().subscribe({
       next: (g) => {
-        console.log('Genres loaded after sub', g);
         this.genres = g || [];
         this.cdr.detectChanges();
       },
