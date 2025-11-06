@@ -61,3 +61,8 @@ strong{
     font-family: "Orbitron", sans-serif;
 }
 
+@media (max-width: 768px) {
+    .movie-poster{
+        width: 300px;
+    }
+}
