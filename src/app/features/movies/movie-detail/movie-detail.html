@@ -16,8 +16,8 @@
         <p class="overview"><strong>Overview:</strong> {{ movie.overview }}</p>
         
         <div class="genres" *ngIf="movie.genres?.length">
-          <strong>Genre:</strong>
-          <span class="genre-tag" *ngFor="let genre of movie.genres">{{ genre.name[0]}}</span>
+          <strong>Genre: </strong>
+          <span class="genre-tag">{{ genreNamesForMovie(movie) }}</span>
         </div>
       </div>
     </div>

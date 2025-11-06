@@ -1,25 +1,65 @@
 <div class="movie-list">
-	<h2>Movies</h2>
+    <h2>Movies</h2>
 
-	<div *ngIf="error" class="error">{{ error }}</div>
-	
-	<ng-container *ngIf="!error">
-		<div class="grid" *ngIf="!loading && movies.length; else loadingTpl">
-			<div class="card" *ngFor="let m of movies">
-				<a [routerLink]="['/movie', m.id]" class="movie-link">
-					<img [src]="m.poster_path ? 'https://image.tmdb.org/t/p/w200' + m.poster_path : 'assets/no-poster.png'" 
-						[alt]="m.title + ' poster'" />
-					<div class="info">
-						<h3>{{ m.title }}</h3>
-						<p class="date">{{ m.release_date | date:'mediumDate' }}</p>
-						<p class="overview">{{ m.overview | slice:0:100 }}...</p>
-					</div>
-				</a>
-			</div>
-		</div>
-	</ng-container>
+    <section class="search-panel">
+        <div class="search-grid">
+            <div class="search-field">
+                <label for="searchQuery">Title</label>
+                <input id="searchQuery" type="text" placeholder="Search movies..." (input)="onSearchInput($event)" />
+            </div>
 
-	<ng-template #loadingTpl>
-		<div class="loading">Loading movies...</div>
-	</ng-template>
+            <div class="search-field">
+                <label for="rating">Min Rating: {{ minRating }}</label>
+                <input id="rating" type="range" min="0" max="10" step="0.5" [value]="minRating" (input)="onRatingChange($event)" />
+            </div>
+
+            <div class="search-field">
+                <label for="release">Release After</label>
+                <input id="release" type="date" (change)="onDateChange($event)" />
+            </div>
+        </div>
+        
+        <div class="genres-row">
+            <label class="genres-label">Genres:</label>
+            <div class="genre-chips">
+                <button 
+                    *ngFor="let g of genres" 
+                    class="genre-chip" 
+                    [class.active]="isGenreSelected(g.id)"
+                    (click)="toggleGenre(g.id)">
+                    {{ g.name }}
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <div *ngIf="error" class="error-message">{{ error }}</div>
+    
+    <ng-container *ngIf="!error">
+        <div class="movies-grid" *ngIf="!loading && movies.length; else loadingTpl">
+            <a class="movie-card" *ngFor="let m of movies" [routerLink]="['/movie', m.id]">
+                <div class="poster-wrapper">
+                    <img [src]="m.poster_path ? 'https://image.tmdb.org/t/p/w400' + m.poster_path : 'assets/no-poster.png'" 
+                        [alt]="m.title + ' poster'" />
+                    <div class="rating" *ngIf="m.vote_average">
+                        <span>{{ m.vote_average | number:'1.1-1' }}</span>
+                    </div>
+                </div>
+                <div class="content">
+                    <h3>{{ m.title }}</h3>
+                    <p class="genres">{{ genreNamesForMovie(m) }}</p>
+                    <p class="date">{{ m.release_date | date:'mediumDate' }}</p>
+                    <p class="overview">{{ m.overview }}</p>
+                    <span class="view-details">View Details</span>
+                </div>
+            </a>
+        </div>
+    </ng-container>
+
+    <ng-template #loadingTpl>
+        <div class="loading">
+            <div class="loading-spinner"></div>
+            <span>Loading movies...</span>
+        </div>
+    </ng-template>
 </div>
