@@ -70,8 +70,7 @@ searchMoviesWithFilters(filters: { query?: string; genres?: number[]; minRating?
         map(res => res.results),
         catchError(this.handleError)
       );
-  } else {
-
+  } else if (hasNonQueryFilters) {
     if (filters.genres && filters.genres.length) {
       params = params.set('with_genres', filters.genres.join(','));
     }
@@ -85,11 +84,28 @@ searchMoviesWithFilters(filters: { query?: string; genres?: number[]; minRating?
     return this.http.get<{ results: Movie[] }>(`${this.baseUrl}/discover/movie`, { params })
       .pipe(
         map(res => res.results),
+        // cuando hay un query despues de aplicar los otros filtros, filtrar los resultados
+        map(movies => {
+          if (filters.query) {
+            const queryLower = filters.query.toLowerCase();
+            return movies.filter(movie => 
+              movie.title?.toLowerCase().includes(queryLower) ||
+              movie.overview?.toLowerCase().includes(queryLower)
+            );
+          }
+          return movies;
+        }),
+        catchError(this.handleError)
+      );
+  } 
+  else {
+    return this.http.get<{ results: Movie[] }>(`${this.baseUrl}/movie/popular`, { params })
+      .pipe(
+        map(res => res.results),
         catchError(this.handleError)
       );
   }
 }
-
 
   //Funcion reutilizable para manejar los errores de las solicitudes HTTP
   private handleError(error: HttpErrorResponse): Observable<never> {
