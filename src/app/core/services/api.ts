@@ -3,13 +3,14 @@ import { Observable, throwError } from "rxjs";
 import { catchError, map } from 'rxjs/operators';
 import { Movie, GenresStructure } from '../../features/shared/models/movie';
 import { Injectable } from "@angular/core";
+import { environment } from "../../environment";
 
 @Injectable({ providedIn: 'root' })
 
 
 export class Api {
-  private baseUrl: string = 'https://api.themoviedb.org/3';
-  private apiKey: string = 'b2ad4b37aef953d6f70ed15d54ab47bf';
+  private baseUrl: string = environment.apiUrl;
+  private apiKey: string = environment.apiKey;
 
   constructor(private http: HttpClient) {
     console.log('Api Service initialized');

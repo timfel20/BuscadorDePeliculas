@@ -39,16 +39,19 @@ h2{
 }
 
 .movie-detail__back-button {
-    align-self: flex-start;
     padding: 10px 15px;
+    margin: 40px 0px 40px 5px;
     background-color: #007bff;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
     transition: background-color 0.3s;
 }
 
 .movie-detail__back-button:hover {
     background-color: #0056b3;
 }
+

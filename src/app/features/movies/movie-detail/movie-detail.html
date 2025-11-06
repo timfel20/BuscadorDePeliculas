@@ -1,3 +1,4 @@
+<button [routerLink]="['/movies']" class="movie-detail__back-button"> Back to movies </button>
 <div class="movie-detail">
   <div *ngIf="!movie" class="loading">Loading movie details...</div>
 
@@ -21,7 +22,5 @@
         </div>
       </div>
     </div>
-
-    <a [routerLink]="['/movies']" class="back-button">Back to Movies</a>
   </div>
 </div>
